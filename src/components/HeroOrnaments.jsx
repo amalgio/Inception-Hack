@@ -131,13 +131,13 @@ export function LeftOrnaments() {
   const bottomIconPos = getEllipsePos(outerRx, outerRy, 50);
 
   return (
-    <div className="absolute left-0 top-0 h-full w-[35%] z-10 pointer-events-none origin-left transition-all duration-500 scale-[0.4] sm:scale-[0.55] md:scale-[0.7] lg:scale-[0.85] xl:scale-100">
+    <div className="hidden md:block absolute left-0 top-0 h-full w-[35%] z-10 pointer-events-none origin-left transition-all duration-500 scale-[0.7] lg:scale-[0.85] xl:scale-100">
       
       {/* Centered orbits container (aligned around the middle Atom model) */}
       <div className="absolute left-[30%] sm:left-[8%] top-[50%] w-[650px] h-[650px] -translate-x-1/2 -translate-y-1/2">
         
-        {/* FADING LAYER: Background glow, orbit lines, and dots (fade on mobile viewports) */}
-        <div className="absolute inset-0 opacity-40 sm:opacity-50 md:opacity-75 lg:opacity-100 transition-opacity duration-500">
+        {/* FADING LAYER: Background glow, orbit lines, and dots (hidden on mobile, shown on desktop) */}
+        <div className="hidden sm:block absolute inset-0 opacity-40 sm:opacity-50 md:opacity-75 lg:opacity-100 transition-opacity duration-500">
           
           {/* Soft Radial Background Orange Glow (shifted slightly inward and toned down) */}
           <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_-20%_50%,rgba(255,85,0,0.60)_0%,rgba(255,85,0,0.25)_50%,transparent_90%)] pointer-events-none filter blur-3xl" />
@@ -196,9 +196,9 @@ export function LeftOrnaments() {
             </motion.div>
           </div>
 
-          {/* Left Top Icon (aligned perfectly on the outer offset ellipse) */}
+          {/* Left Top Icon (aligned perfectly on the outer offset ellipse - hidden on mobile) */}
           <div 
-            className="absolute w-24 h-24 z-20" 
+            className="hidden sm:block absolute w-24 h-24 z-20" 
             style={{ 
               left: `calc(50% + ${topIconPos.x}px)`, 
               top: `calc(50% + ${topIconPos.y}px)`, 
@@ -220,9 +220,9 @@ export function LeftOrnaments() {
             </motion.div>
           </div>
 
-          {/* Left Bottom Icon (aligned perfectly on the outer offset ellipse) */}
+          {/* Left Bottom Icon (aligned perfectly on the outer offset ellipse - hidden on mobile) */}
           <div 
-            className="absolute w-24 h-24 z-20" 
+            className="hidden sm:block absolute w-24 h-24 z-20" 
             style={{ 
               left: `calc(50% + ${bottomIconPos.x}px)`, 
               top: `calc(50% + ${bottomIconPos.y}px)`, 
@@ -267,14 +267,13 @@ export function RightOrnaments() {
   const bottomIconPos = getEllipsePos(outerRx, outerRy, 130);
 
   return (
-    <div className="absolute right-0 top-0 h-full w-[35%] z-10 pointer-events-none origin-right transition-all duration-500 scale-[0.4] sm:scale-[0.55] md:scale-[0.7] lg:scale-[0.85] xl:scale-100">
+    <div className="hidden md:block absolute right-0 top-0 h-full w-[35%] z-10 pointer-events-none origin-right transition-all duration-500 scale-[0.7] lg:scale-[0.85] xl:scale-100">
       
       {/* Centered orbits container (aligned around the middle Gear model) */}
       <div className="absolute right-[30%] sm:right-[12%] top-[50%] w-[650px] h-[650px] translate-x-1/2 -translate-y-1/2">
         
-        {/* FADING LAYER: Background glow, orbit lines, and dots (fade on mobile viewports) */}
-        {/* FADING LAYER: Background glow, orbit lines, and dots (fade on mobile viewports) */}
-        <div className="absolute inset-0 opacity-40 sm:opacity-50 md:opacity-75 lg:opacity-100 transition-opacity duration-500">
+        {/* FADING LAYER: Background glow, orbit lines, and dots (hidden on mobile, shown on desktop) */}
+        <div className="hidden sm:block absolute inset-0 opacity-40 sm:opacity-50 md:opacity-75 lg:opacity-100 transition-opacity duration-500">
           
           {/* Soft Radial Background Slate/Gray Glow (shifted slightly inward and toned down) */}
           <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_120%_50%,rgba(100,116,139,0.60)_0%,rgba(100,116,139,0.25)_50%,transparent_90%)] pointer-events-none filter blur-3xl" />
@@ -333,9 +332,9 @@ export function RightOrnaments() {
             </motion.div>
           </div>
 
-          {/* Right Top Icon (aligned perfectly on the outer offset ellipse) */}
+          {/* Right Top Icon (aligned perfectly on the outer offset ellipse - hidden on mobile) */}
           <div 
-            className="absolute w-24 h-24 z-20" 
+            className="hidden sm:block absolute w-24 h-24 z-20" 
             style={{ 
               left: `calc(50% + ${topIconPos.x}px)`, 
               top: `calc(50% + ${topIconPos.y}px)`, 
@@ -357,9 +356,9 @@ export function RightOrnaments() {
             </motion.div>
           </div>
 
-          {/* Right Bottom Icon (aligned perfectly on the outer offset ellipse) */}
+          {/* Right Bottom Icon (aligned perfectly on the outer offset ellipse - hidden on mobile) */}
           <div 
-            className="absolute w-24 h-24 z-20" 
+            className="hidden sm:block absolute w-24 h-24 z-20" 
             style={{ 
               left: `calc(50% + ${bottomIconPos.x}px)`, 
               top: `calc(50% + ${bottomIconPos.y}px)`, 
@@ -383,6 +382,75 @@ export function RightOrnaments() {
 
         </div>
 
+      </div>
+    </div>
+  );
+}
+
+export function MobileOrnaments() {
+  return (
+    <div className="block md:hidden absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10">
+      {/* 1. Atom Model (Top Left) */}
+      <div className="absolute left-[6%] top-[80px] w-[52px] h-[52px] z-10">
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 5.0, repeat: Infinity, ease: "easeInOut" }}
+          className="w-full h-full"
+        >
+          <img
+            src={iconAtom}
+            alt="Atom Model"
+            className="w-full h-full object-contain opacity-85"
+          />
+        </motion.div>
+      </div>
+
+      {/* 2. Mechanical Gear (Top Right) */}
+      <div className="absolute right-[6%] top-[95px] w-[52px] h-[52px] z-10">
+        <motion.div
+          animate={{ y: [0, -6, 0], rotate: 360 }}
+          transition={{
+            y: { duration: 6.0, repeat: Infinity, ease: "easeInOut" },
+            rotate: { duration: 25.0, repeat: Infinity, ease: "linear" }
+          }}
+          className="w-full h-full"
+        >
+          <img
+            src={iconGear}
+            alt="Mechanical Gear"
+            className="w-full h-full object-contain opacity-85"
+          />
+        </motion.div>
+      </div>
+
+      {/* 3. Code Brackets (Bottom Left) */}
+      <div className="absolute left-[8%] top-[690px] w-[48px] h-[48px] z-10">
+        <motion.div
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+          className="w-full h-full"
+        >
+          <img
+            src={iconCodeBrackets}
+            alt="Code Brackets"
+            className="w-full h-full object-contain opacity-85"
+          />
+        </motion.div>
+      </div>
+
+      {/* 4. Pie Chart (Bottom Right) */}
+      <div className="absolute right-[10%] top-[670px] w-[48px] h-[48px] z-10">
+        <motion.div
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+          className="w-full h-full"
+        >
+          <img
+            src={iconPieChart}
+            alt="Pie Chart"
+            className="w-full h-full object-contain opacity-85"
+          />
+        </motion.div>
       </div>
     </div>
   );

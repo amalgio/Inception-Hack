@@ -327,10 +327,7 @@ export default function AboutSection() {
         
         {/* Left Column: Heading and Description */}
         <ScrollReveal className="w-full md:w-[38%] lg:w-[36%] flex flex-col items-center text-center md:items-start md:text-left">
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#FF5A1F] mb-6 inline-block select-none">
-            <span className="border-b-2 border-[#FF5A1F] pb-1 mr-1">⚡ ABOUT</span> INCEPTION
-          </span>
-          
+
           <div className="bg-white shadow-[0_4px_16px_rgba(0,0,0,0.03)] border border-stone-200/50 rounded-full px-4 py-1.5 flex items-center gap-2 mb-6 select-none">
             <Zap size={11} className="text-[#FF5A1F] fill-[#FF5A1F]/15" />
             <span className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#FF5A1F]">

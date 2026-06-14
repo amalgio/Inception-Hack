@@ -9,7 +9,7 @@ import AnimatedTabs from "../components/AnimatedTabs";
 import AnimatedShinyButton from "../components/AnimatedShinyButton";
 import GlowingCard from "../components/GlowingCard";
 import { ErrorBoundary } from "../components/ErrorBoundary";
-import { LeftOrnaments, RightOrnaments } from "../components/HeroOrnaments";
+import { LeftOrnaments, RightOrnaments, MobileOrnaments } from "../components/HeroOrnaments";
 
 // Lazy-loaded heavy components (reduces initial bundle)
 const RegisterModal = lazy(() => import("../components/RegisterModal"));
@@ -197,6 +197,7 @@ export default function Home() {
         {/* Left and Right Orbits Ornaments */}
         <LeftOrnaments />
         <RightOrnaments />
+        <MobileOrnaments />
 
         {/* Center Content Wrapper */}
         <div className="relative z-20 flex flex-col items-center justify-center max-w-2xl mx-auto">
