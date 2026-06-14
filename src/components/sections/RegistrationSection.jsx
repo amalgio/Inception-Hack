@@ -37,13 +37,7 @@ export default function RegistrationSection({ onRegisterClick }) {
     );
   }
 
-  // Pre-calculate positions for background orbits nodes
-  const node1X = 220 + 215 * Math.cos(-45 * Math.PI / 180);
-  const node1Y = 220 + 215 * Math.sin(-45 * Math.PI / 180);
-  const node2X = 220 + 232 * Math.cos(155 * Math.PI / 180);
-  const node2Y = 220 + 232 * Math.sin(155 * Math.PI / 180);
-  const node3X = 220 + 215 * Math.cos(-145 * Math.PI / 180);
-  const node3Y = 220 + 215 * Math.sin(-145 * Math.PI / 180);
+
 
   return (
     <section id="register" className="py-16 md:py-24 px-4 md:px-6 max-w-4xl mx-auto border-t border-stone-200/50 relative overflow-visible">
@@ -72,45 +66,41 @@ export default function RegistrationSection({ onRegisterClick }) {
               </filter>
             </defs>
 
-            {/* Concentric dashed background orbits */}
-            <circle cx="220" cy="220" r="215" fill="none" stroke="rgba(255, 90, 31, 0.09)" strokeWidth="1" strokeDasharray="3 3" />
-            <circle cx="220" cy="220" r="232" fill="none" stroke="rgba(255, 90, 31, 0.045)" strokeWidth="1" strokeDasharray="4 4" />
 
-            {/* Orbit planetary nodes */}
-            <circle cx={node1X} cy={node1Y} r="3" fill="#FF5A1F" opacity="0.45" />
-            <circle cx={node2X} cy={node2Y} r="2" fill="#FF5A1F" opacity="0.3" />
-            <circle cx={node3X} cy={node3Y} r="2.5" fill="#FF5A1F" opacity="0.35" />
 
             {/* Faint orange backing track for the progress arc */}
             <circle cx="220" cy="220" r="205" fill="none" stroke="rgba(255, 90, 31, 0.05)" strokeWidth="4" />
 
-            {/* Glowing Orange Progress Arc (starts at 220,15 (top) and goes clockwise) */}
-            <path
-              d="M 220,15 A 205,205 0 1,1 42.5,322.5"
-              fill="none"
-              stroke="url(#arc-glow)"
-              strokeWidth="4"
-              strokeLinecap="round"
-              filter="url(#glow)"
-              opacity="0.6"
-            />
-            <path
-              d="M 220,15 A 205,205 0 1,1 42.5,322.5"
-              fill="none"
-              stroke="url(#arc-glow)"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-            />
-
-            {/* Dial Tick Marks */}
+            {/* Dial Tick Marks (stay static) */}
             {tickLines}
 
-            {/* Top Indicator Pulsing Orb (orbits around the circle like a clock) */}
+            {/* Rotating group for progress arc and pulsing orb (orbits anticlockwise) */}
             <motion.g
-              style={{ transformOrigin: "220px 220px" }}
-              animate={{ rotate: 360 }}
+              style={{ originX: 0.5, originY: 0.5, transformBox: "view-box" }}
+              animate={{ rotate: -360 }}
               transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
             >
+              <rect x="0" y="0" width="440" height="440" fill="transparent" pointerEvents="none" />
+              
+              {/* Glowing Orange Progress Arc */}
+              <path
+                d="M 220,15 A 205,205 0 1,1 42.5,322.5"
+                fill="none"
+                stroke="url(#arc-glow)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                filter="url(#glow)"
+                opacity="0.6"
+              />
+              <path
+                d="M 220,15 A 205,205 0 1,1 42.5,322.5"
+                fill="none"
+                stroke="url(#arc-glow)"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
+
+              {/* Pulsing Orb */}
               <circle cx="220" cy="15" r="4.5" fill="#FF5A1F" />
               <motion.circle
                 cx="220"
