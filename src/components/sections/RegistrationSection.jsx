@@ -135,7 +135,7 @@ export default function RegistrationSection({ onRegisterClick }) {
                 
                 <div className="w-8 h-[1.5px] bg-stone-200/80 mb-3" />
                 
-                <span className="text-[#FF5A1F] text-[10px] font-extrabold tracking-[0.2em] uppercase mb-5.5 leading-none">
+                <span className="text-[#FF5A1F] text-[10px] font-extrabold tracking-[0.2em] uppercase mb-6 leading-none">
                   March 26 – 27
                 </span>
 
