@@ -45,40 +45,37 @@ export default function RegistrationSection({ onRegisterClick }) {
       {/* Background Soft Glow */}
       <div className="absolute inset-0 bg-[#ff5500]/[0.02] filter blur-[120px] rounded-full pointer-events-none -z-10 animate-pulse" />
 
-      <ScrollReveal className="flex flex-col items-center justify-center w-full relative">
+      {/* MagicRings WebGL Background Effect - covers the full background behind the circle, masked inside the circle */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80">
+        <MagicRings
+          color="#FF5A1F"
+          colorTwo="#e5dec9"
+          ringCount={8}
+          speed={0.8}
+          attenuation={9}
+          lineThickness={1.8}
+          baseRadius={0.32}
+          radiusStep={0.08}
+          scaleRate={0.06}
+          opacity={0.8}
+          blur={0}
+          noiseAmount={0.04}
+          rotation={0}
+          ringGap={1.4}
+          fadeIn={0.7}
+          fadeOut={0.5}
+          followMouse={true}
+          mouseInfluence={0.08}
+          hoverScale={1.05}
+          parallax={0.015}
+          clickBurst={true}
+        />
+      </div>
+
+      <ScrollReveal className="flex flex-col items-center justify-center w-full relative z-10">
         
         {/* Concentric Countdown Dial System */}
         <div className="w-[330px] xs:w-[390px] md:w-[500px] aspect-square relative flex items-center justify-center overflow-visible select-none mb-4">
-          
-          {/* MagicRings WebGL Effect - floats behind/around the circle as a background glow, not clipped inside */}
-          <div 
-            style={{ top: '-15%', bottom: '-15%', left: '-15%', right: '-15%' }} 
-            className="absolute pointer-events-none z-0 opacity-85"
-          >
-            <MagicRings
-              color="#FF5A1F"
-              colorTwo="#e5dec9"
-              ringCount={8}
-              speed={0.8}
-              attenuation={9}
-              lineThickness={1.8}
-              baseRadius={0.32}
-              radiusStep={0.08}
-              scaleRate={0.06}
-              opacity={0.8}
-              blur={0}
-              noiseAmount={0.04}
-              rotation={0}
-              ringGap={1.4}
-              fadeIn={0.7}
-              fadeOut={0.5}
-              followMouse={true}
-              mouseInfluence={0.08}
-              hoverScale={1.05}
-              parallax={0.015}
-              clickBurst={true}
-            />
-          </div>
           
           {/* Radial SVG Dial background and lines */}
           <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0" viewBox="0 0 440 440">
