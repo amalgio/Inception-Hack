@@ -105,18 +105,24 @@ export default function RegistrationSection({ onRegisterClick }) {
             {/* Dial Tick Marks */}
             {tickLines}
 
-            {/* Top Indicator Pulsing Orb (exactly at 12 o'clock / path middle radius 205px) */}
-            <circle cx="220" cy="15" r="4.5" fill="#FF5A1F" />
-            <motion.circle
-              cx="220"
-              cy="15"
-              r="4.5"
-              fill="#FF5A1F"
-              initial={{ scale: 1, opacity: 0.6 }}
-              animate={{ scale: 2.3, opacity: 0 }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
-              style={{ transformOrigin: "220px 15px" }}
-            />
+            {/* Top Indicator Pulsing Orb (orbits around the circle like a clock) */}
+            <motion.g
+              style={{ transformOrigin: "220px 220px" }}
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+            >
+              <circle cx="220" cy="15" r="4.5" fill="#FF5A1F" />
+              <motion.circle
+                cx="220"
+                cy="15"
+                r="4.5"
+                fill="#FF5A1F"
+                initial={{ scale: 1, opacity: 0.6 }}
+                animate={{ scale: 2.3, opacity: 0 }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
+                style={{ transformOrigin: "220px 15px" }}
+              />
+            </motion.g>
 
             {/* Centered dial information card rendered inside SVG coordinate space so it scales perfectly */}
             <foreignObject x="60" y="60" width="320" height="320" className="pointer-events-auto">
