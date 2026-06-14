@@ -50,8 +50,11 @@ export default function RegistrationSection({ onRegisterClick }) {
         {/* Concentric Countdown Dial System */}
         <div className="w-[330px] xs:w-[390px] md:w-[500px] aspect-square relative flex items-center justify-center overflow-visible select-none mb-4">
           
-          {/* MagicRings WebGL Effect */}
-          <div className="absolute inset-0 w-full h-full rounded-full overflow-hidden pointer-events-none z-0 opacity-80">
+          {/* MagicRings WebGL Effect - floats behind/around the circle as a background glow, not clipped inside */}
+          <div 
+            style={{ top: '-15%', bottom: '-15%', left: '-15%', right: '-15%' }} 
+            className="absolute pointer-events-none z-0 opacity-85"
+          >
             <MagicRings
               color="#FF5A1F"
               colorTwo="#e5dec9"
