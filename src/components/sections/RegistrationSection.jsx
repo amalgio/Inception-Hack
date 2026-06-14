@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "../ScrollReveal";
+import MagicRings from "../MagicRings";
 
 export default function RegistrationSection({ onRegisterClick }) {
   // Generate 80 ticks for the circular countdown ring
@@ -48,6 +49,33 @@ export default function RegistrationSection({ onRegisterClick }) {
         
         {/* Concentric Countdown Dial System */}
         <div className="w-[330px] xs:w-[390px] md:w-[500px] aspect-square relative flex items-center justify-center overflow-visible select-none mb-4">
+          
+          {/* MagicRings WebGL Effect */}
+          <div className="absolute inset-0 w-full h-full rounded-full overflow-hidden pointer-events-none z-0 opacity-80">
+            <MagicRings
+              color="#FF5A1F"
+              colorTwo="#e5dec9"
+              ringCount={8}
+              speed={0.8}
+              attenuation={9}
+              lineThickness={1.8}
+              baseRadius={0.32}
+              radiusStep={0.08}
+              scaleRate={0.06}
+              opacity={0.8}
+              blur={0}
+              noiseAmount={0.04}
+              rotation={0}
+              ringGap={1.4}
+              fadeIn={0.7}
+              fadeOut={0.5}
+              followMouse={true}
+              mouseInfluence={0.08}
+              hoverScale={1.05}
+              parallax={0.015}
+              clickBurst={true}
+            />
+          </div>
           
           {/* Radial SVG Dial background and lines */}
           <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0" viewBox="0 0 440 440">
