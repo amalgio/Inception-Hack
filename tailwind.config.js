@@ -3,9 +3,19 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/flyonui/dist/js/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Outfit", "sans-serif"]
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require("flyonui")
+  ],
+  flyonui: {
+    themes: ["light"]
+  }
 }
