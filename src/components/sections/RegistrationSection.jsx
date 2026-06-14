@@ -99,6 +99,9 @@ export default function RegistrationSection({ onRegisterClick }) {
 
 
 
+            {/* Solid mask circle to prevent WebGL rings from showing inside the dial */}
+            <circle cx="220" cy="220" r="195" fill="#FAF8F6" />
+
             {/* Faint orange backing track for the progress arc */}
             <circle cx="220" cy="220" r="205" fill="none" stroke="rgba(255, 90, 31, 0.05)" strokeWidth="4" />
 
