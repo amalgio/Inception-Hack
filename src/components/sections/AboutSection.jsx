@@ -323,11 +323,10 @@ export default function AboutSection() {
       {/* Bottom Left Gradient Shade */}
       <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] max-w-[380px] max-h-[380px] bg-gradient-to-tr from-amber-500/[0.22] via-[#FF5A1F]/[0.04] to-transparent rounded-full filter blur-[80px] pointer-events-none z-0" />
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-8 relative z-10 w-full">
+      <div className="flex flex-col md:flex-row items-center justify-start gap-12 md:gap-20 relative z-10 w-full">
         
         {/* Left Column: Heading and Description */}
         <ScrollReveal className="w-full md:w-[38%] lg:w-[36%] flex flex-col items-center text-center md:items-start md:text-left">
-
           <div className="bg-white shadow-[0_4px_16px_rgba(0,0,0,0.03)] border border-stone-200/50 rounded-full px-4 py-1.5 flex items-center gap-2 mb-6 select-none">
             <Zap size={11} className="text-[#FF5A1F] fill-[#FF5A1F]/15" />
             <span className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#FF5A1F]">
@@ -357,10 +356,10 @@ export default function AboutSection() {
         </div>
 
         {/* Right Column: Interactive Orbital Track System */}
-        <div className="hidden md:flex w-full md:w-[62%] lg:w-[64%] items-center justify-center md:justify-end md:pr-8 relative min-h-[440px] overflow-visible">
+        <div className="hidden md:flex flex-1 items-center justify-start relative min-h-[440px] overflow-visible">
           
           {/* Responsive scale wrapper to fit orbit perfectly on mobile viewports */}
-          <div className="scale-[0.62] xs:scale-[0.7] sm:scale-[0.85] md:scale-100 origin-center transition-transform duration-300 flex items-center justify-center shrink-0 w-[560px] h-[420px] relative">
+          <div className="scale-[0.62] xs:scale-[0.7] sm:scale-[0.85] md:scale-[0.8] lg:scale-100 origin-left transition-transform duration-300 flex items-center justify-center shrink-0 w-[560px] h-[420px] relative">
             
             {/* Orbital system container (unrotated relative parent for nodes) */}
             <div className="w-[560px] h-[420px] relative">

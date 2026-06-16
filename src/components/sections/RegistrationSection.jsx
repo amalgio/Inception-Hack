@@ -52,7 +52,7 @@ export default function RegistrationSection({ onRegisterClick }) {
           {/* Radial SVG Dial background and lines */}
           <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0" viewBox="0 0 440 440">
             <defs>
-              <linearGradient id="arc-glow" x1="380" y1="59" x2="60" y2="380" gradientUnits="userSpaceOnUse">
+              <linearGradient id="arc-glow" x1="220" y1="15" x2="397.5" y2="322.5" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#FF5A1F" stopOpacity="1" />
                 <stop offset="60%" stopColor="#FF5A1F" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#FF5A1F" stopOpacity="0" />
@@ -84,7 +84,7 @@ export default function RegistrationSection({ onRegisterClick }) {
               
               {/* Glowing Orange Progress Arc */}
               <path
-                d="M 220,15 A 205,205 0 1,1 42.5,322.5"
+                d="M 220,15 A 205,205 0 1,0 397.5,322.5"
                 fill="none"
                 stroke="url(#arc-glow)"
                 strokeWidth="4"
@@ -93,7 +93,7 @@ export default function RegistrationSection({ onRegisterClick }) {
                 opacity="0.6"
               />
               <path
-                d="M 220,15 A 205,205 0 1,1 42.5,322.5"
+                d="M 220,15 A 205,205 0 1,0 397.5,322.5"
                 fill="none"
                 stroke="url(#arc-glow)"
                 strokeWidth="3.5"
@@ -153,38 +153,10 @@ export default function RegistrationSection({ onRegisterClick }) {
 
         </div>
 
-        {/* Bottom Wavy Decoration */}
+        {/* Bottom Spaced Label */}
         <div className="w-full flex flex-col items-center select-none mt-6 relative overflow-visible">
-          <svg className="w-full max-w-[480px] h-8 overflow-visible select-none pointer-events-none" viewBox="0 0 600 40">
-            {/* Wave Path */}
-            <path 
-              d="M 0,20 C 100,28 200,12 300,20 C 400,28 500,12 600,20" 
-              fill="none" 
-              stroke="rgba(255, 90, 31, 0.15)" 
-              strokeWidth="1.2" 
-            />
-            {/* Small nodes on the wave */}
-            <circle cx="100" cy="24" r="2.5" fill="#FF5A1F" opacity="0.4" />
-            <circle cx="200" cy="16" r="2.5" fill="#FF5A1F" opacity="0.5" />
-            <circle cx="400" cy="24" r="2.5" fill="#FF5A1F" opacity="0.5" />
-            <circle cx="500" cy="16" r="2.5" fill="#FF5A1F" opacity="0.4" />
-            
-            {/* Pulsing center node */}
-            <circle cx="300" cy="20" r="4.5" fill="#FF5A1F" />
-            <motion.circle
-              cx="300"
-              cy="20"
-              r="4.5"
-              fill="#FF5A1F"
-              initial={{ scale: 1, opacity: 0.6 }}
-              animate={{ scale: 2.3, opacity: 0 }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
-              style={{ transformOrigin: "300px 20px" }}
-            />
-          </svg>
-
           {/* Spaced label */}
-          <span className="text-[#FF5A1F] text-[9.5px] font-extrabold tracking-[0.38em] uppercase mt-2.5 select-none">
+          <span className="text-[#FF5A1F] text-[9.5px] font-extrabold tracking-[0.38em] uppercase select-none">
             Be Part of Something Big
           </span>
         </div>

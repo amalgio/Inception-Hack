@@ -422,6 +422,45 @@ export default function ScheduleSection() {
         />
       </div>
 
+      {/* Bottom Day Navigation Button */}
+      <ScrollReveal className="flex justify-center mt-12 md:mt-16">
+        {activeTab === 0 ? (
+          <button
+            onClick={() => {
+              setActiveTab(1);
+              document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="group px-6 py-3 bg-[#FF5A1F] text-white font-extrabold text-[10px] tracking-[0.18em] uppercase rounded-full hover:bg-[#E04D00] shadow-[0_6px_18px_rgba(255,90,31,0.18)] hover:shadow-[0_8px_22px_rgba(255,90,31,0.28)] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-2 select-none cursor-pointer"
+          >
+            <span>See Day 2 Schedule</span>
+            <motion.span
+              animate={{ x: [0, 4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="inline-block"
+            >
+              →
+            </motion.span>
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setActiveTab(0);
+              document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="group px-6 py-3 bg-white border border-[#FF5A1F]/30 text-[#FF5A1F] font-extrabold text-[10px] tracking-[0.18em] uppercase rounded-full hover:bg-[#FF5A1F]/5 shadow-sm hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-2 select-none cursor-pointer"
+          >
+            <motion.span
+              animate={{ x: [0, -4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="inline-block"
+            >
+              ←
+            </motion.span>
+            <span>Back To Day 1</span>
+          </button>
+        )}
+      </ScrollReveal>
+
     </section>
   );
 }
