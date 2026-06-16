@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "../ScrollReveal";
-import MagicRings from "../MagicRings";
 
 export default function RegistrationSection({ onRegisterClick }) {
   // Generate 80 ticks for the circular countdown ring
@@ -45,34 +44,7 @@ export default function RegistrationSection({ onRegisterClick }) {
       {/* Background Soft Glow */}
       <div className="absolute inset-0 bg-[#ff5500]/[0.02] filter blur-[120px] rounded-full pointer-events-none -z-10 animate-pulse" />
 
-      {/* MagicRings WebGL Background Effect - covers the full background behind the circle, masked inside the circle */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80">
-        <MagicRings
-          color="#FF5A1F"
-          colorTwo="#e5dec9"
-          ringCount={8}
-          speed={0.8}
-          attenuation={9}
-          lineThickness={1.8}
-          baseRadius={0.32}
-          radiusStep={0.08}
-          scaleRate={0.06}
-          opacity={0.8}
-          blur={0}
-          noiseAmount={0.04}
-          rotation={0}
-          ringGap={1.4}
-          fadeIn={0.7}
-          fadeOut={0.5}
-          followMouse={true}
-          mouseInfluence={0.08}
-          hoverScale={1.05}
-          parallax={0.015}
-          clickBurst={true}
-        />
-      </div>
-
-      <ScrollReveal className="flex flex-col items-center justify-center w-full relative z-10">
+      <ScrollReveal className="flex flex-col items-center justify-center w-full relative">
         
         {/* Concentric Countdown Dial System */}
         <div className="w-[330px] xs:w-[390px] md:w-[500px] aspect-square relative flex items-center justify-center overflow-visible select-none mb-4">
@@ -96,19 +68,16 @@ export default function RegistrationSection({ onRegisterClick }) {
 
 
 
-            {/* Solid mask circle to prevent WebGL rings from showing inside the dial */}
-            <circle cx="220" cy="220" r="195" fill="#FAF8F6" />
-
             {/* Faint orange backing track for the progress arc */}
             <circle cx="220" cy="220" r="205" fill="none" stroke="rgba(255, 90, 31, 0.05)" strokeWidth="4" />
 
             {/* Dial Tick Marks (stay static) */}
             {tickLines}
 
-            {/* Rotating group for progress arc and pulsing orb (orbits anticlockwise) */}
+            {/* Rotating group for progress arc and pulsing orb (orbits clockwise) */}
             <motion.g
               style={{ originX: 0.5, originY: 0.5, transformBox: "view-box" }}
-              animate={{ rotate: -360 }}
+              animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
             >
               <rect x="0" y="0" width="440" height="440" fill="transparent" pointerEvents="none" />
