@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Project custom exclusions
+.agents/
+JavaGuide/
+graphify-out/
+*.py
+*.txt
+inspect_*.png
+test_output_*.png
+grid_*.png
+grid_media_*.png

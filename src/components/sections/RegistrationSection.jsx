@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "../ScrollReveal";
+import AnimatedShinyButton from "../AnimatedShinyButton";
 
 export default function RegistrationSection({ onRegisterClick }) {
   // Generate 80 ticks for the circular countdown ring
@@ -136,13 +137,12 @@ export default function RegistrationSection({ onRegisterClick }) {
                 </span>
 
                 {/* Register Button */}
-                <button
+                <AnimatedShinyButton
                   onClick={onRegisterClick}
-                  className="px-6 py-3 bg-[#FF5A1F] text-white font-extrabold text-[10px] tracking-[0.18em] uppercase rounded-full hover:bg-[#E04D00] shadow-[0_6px_18px_rgba(255,90,31,0.22)] hover:shadow-[0_8px_22px_rgba(255,90,31,0.32)] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-1.5 justify-center relative z-10 select-none cursor-pointer"
+                  className="px-6 py-3 shadow-[0_6px_18px_rgba(255,90,31,0.22)] hover:shadow-[0_8px_22px_rgba(255,90,31,0.32)] text-[10px] tracking-[0.18em] font-extrabold"
                 >
-                  <span>Register Your Team</span>
-                  <ArrowRight size={13} strokeWidth={2.8} />
-                </button>
+                  Register Your Team
+                </AnimatedShinyButton>
 
                 <span className="text-stone-400 text-[9px] font-bold tracking-[0.18em] uppercase mt-3.5 leading-none">
                   Build. Innovate. Impact.

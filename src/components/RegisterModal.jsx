@@ -2,12 +2,21 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ArrowRight, ArrowLeft, Check, Sparkles, AlertCircle, ExternalLink } from "lucide-react";
 import { GOOGLE_FORM_URL } from "../lib/constants";
+import { getPublicState, isSupabaseConfigured, submitRegistration, validateRegistration } from "../lib/inceptionApi";
 
 export default function RegisterModal({ isOpen, onClose }) {
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [registrationId, setRegistrationId] = useState("");
+  const [submitError, setSubmitError] = useState("");
+  const [registrationStatus, setRegistrationStatus] = useState({
+    loading: false,
+    open: true,
+    limit: 500,
+    count: 0,
+  });
 
   // Track the element that opened the modal so we can restore focus on close
   const triggerRef = useRef(null);
@@ -16,6 +25,21 @@ export default function RegisterModal({ isOpen, onClose }) {
     if (isOpen) {
       // Save the currently focused element (the button that opened this)
       triggerRef.current = document.activeElement;
+      getPublicState()
+        .then((state) => {
+          const limit = Number(state.settings.registration_limit) || 0;
+          const count = Number(state.registrationCount) || 0;
+          setRegistrationStatus({
+            loading: false,
+            open: Boolean(state.settings.registration_open) && (!limit || count < limit),
+            limit,
+            count,
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to load registration status:", error);
+          setRegistrationStatus((prev) => ({ ...prev, loading: false }));
+        });
     } else {
       // Restore focus to the trigger element when modal closes
       triggerRef.current?.focus();
@@ -43,29 +67,21 @@ export default function RegisterModal({ isOpen, onClose }) {
   };
 
   const validateStep1 = () => {
+    const allErrors = validateRegistration(formData);
     const tempErrors = {};
-    if (!formData.teamName.trim()) tempErrors.teamName = "Team Name is required";
-    if (!formData.collegeName.trim()) tempErrors.collegeName = "College Name is required";
-    if (!formData.email.trim()) {
-      tempErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      tempErrors.email = "Enter a valid email address";
-    }
-    if (!formData.phone.trim()) {
-      tempErrors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(formData.phone.replace(/[^0-9]/g, ""))) {
-      tempErrors.phone = "Enter a valid 10-digit phone number";
-    }
+    ["teamName", "collegeName", "email", "phone"].forEach((key) => {
+      if (allErrors[key]) tempErrors[key] = allErrors[key];
+    });
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
 
   const validateStep2 = () => {
+    const allErrors = validateRegistration(formData);
     const tempErrors = {};
-    if (!formData.leaderName.trim()) tempErrors.leaderName = "Team Leader (Member 1) is required";
-    if (!formData.member2Name.trim()) tempErrors.member2Name = "Member 2 is required";
-    if (!formData.member3Name.trim()) tempErrors.member3Name = "Member 3 is required";
-    if (!formData.member4Name.trim()) tempErrors.member4Name = "Member 4 is required";
+    ["leaderName", "member2Name", "member3Name", "member4Name"].forEach((key) => {
+      if (allErrors[key]) tempErrors[key] = allErrors[key];
+    });
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -79,46 +95,40 @@ export default function RegisterModal({ isOpen, onClose }) {
     if (step > 1) setStep(step - 1);
   };
 
-  const sanitizeString = (str) => {
-    if (typeof str !== "string") return str;
-    return str.replace(/<[^>]*>/g, "").trim();
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     if (!validateStep2()) return;
+    if (!registrationStatus.open) {
+      setSubmitError("Registrations are currently closed.");
+      return;
+    }
+    if (!isSupabaseConfigured()) {
+      setSubmitError("Online registration is not configured yet. Please use the Google Form fallback.");
+      return;
+    }
 
     setIsSubmitting(true);
+    setSubmitError("");
 
-    // Sanitize data
-    const sanitizedData = {};
-    Object.keys(formData).forEach((key) => {
-      sanitizedData[key] = sanitizeString(formData[key]);
-    });
-
-    // Simulate API submission
-    setTimeout(() => {
-      try {
-        const current = JSON.parse(localStorage.getItem("inception_registrations") || "[]");
-        const newRegistration = {
-          id: "reg_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5),
-          timestamp: new Date().toISOString(),
-          ...sanitizedData,
-        };
-        current.push(newRegistration);
-        localStorage.setItem("inception_registrations", JSON.stringify(current));
-      } catch (err) {
-        console.error("Failed to save registration to localStorage:", err);
-      }
+    try {
+      const result = await submitRegistration(formData);
+      setRegistrationId(result.registration_id || "");
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 1500);
+      setRegistrationStatus((prev) => ({ ...prev, count: prev.count + 1 }));
+    } catch (error) {
+      if (error.fieldErrors) setErrors(error.fieldErrors);
+      setSubmitError(error.message || "Registration failed. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
     setStep(1);
     setErrors({});
     setSubmitted(false);
+    setRegistrationId("");
+    setSubmitError("");
     setFormData({
       teamName: "",
       collegeName: "",
@@ -230,7 +240,13 @@ export default function RegisterModal({ isOpen, onClose }) {
                     </h4>
                     <p className="text-stone-600 text-sm max-w-sm leading-relaxed mb-6 font-light">
                       Thank you for registering <strong className="text-stone-850 font-semibold">{formData.teamName}</strong>. 
-                      You will receive an official confirmation mail at <span className="text-[#e04d00] font-semibold">{formData.email}</span> shortly.
+                      Please save this ID for future reference.
+                    </p>
+                    <div className="mb-6 rounded-2xl border border-[#ff5500]/20 bg-[#ff5500]/5 px-5 py-3 font-mono text-lg font-black tracking-wider text-[#e04d00]">
+                      {registrationId || "INC-2026-0000"}
+                    </div>
+                    <p className="text-stone-500 text-xs max-w-sm leading-relaxed mb-6 font-light">
+                      A confirmation can be sent to <span className="text-[#e04d00] font-semibold">{formData.email}</span> by the organizing team.
                     </p>
                     <button
                       onClick={handleClose}
@@ -242,6 +258,24 @@ export default function RegisterModal({ isOpen, onClose }) {
                 ) : (
                   // Form Fields
                   <form onSubmit={handleSubmit} className="space-y-4">
+                    {!registrationStatus.open && !registrationStatus.loading && (
+                      <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700 flex items-start gap-2">
+                        <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                        <span>Registrations are currently closed.</span>
+                      </div>
+                    )}
+                    {!isSupabaseConfigured() && (
+                      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800 flex items-start gap-2">
+                        <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                        <span>Supabase is not configured yet. Use the Google Form fallback until environment variables are added.</span>
+                      </div>
+                    )}
+                    {submitError && (
+                      <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700 flex items-start gap-2">
+                        <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                        <span>{submitError}</span>
+                      </div>
+                    )}
                     
                     {step === 1 && (
                       <motion.div
@@ -484,7 +518,7 @@ export default function RegisterModal({ isOpen, onClose }) {
                   <button
                     type="button"
                     onClick={handleSubmit}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !registrationStatus.open || !isSupabaseConfigured()}
                     className="px-8 py-3 bg-gradient-to-r from-[#ff5500] to-[#ff8c42] text-white font-extrabold text-xs tracking-wider uppercase rounded-full flex items-center gap-1.5 transition-all shimmer-btn shadow-[0_4px_15px_-3px_rgba(255,85,0,0.5)] select-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff5500] focus-visible:ring-offset-2"
                   >
                     {isSubmitting ? (

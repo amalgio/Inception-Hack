@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "../ScrollReveal";
+import Magnetic from "../Magnetic";
+import AnimatedShinyButton from "../AnimatedShinyButton";
 import { faqItems } from "../../data/siteData";
 
 function FAQAccordionItem({ item, isOpen, onClick }) {
@@ -119,21 +121,25 @@ export default function FAQSection() {
               <p className="text-stone-550 text-xs font-light">Reach out to our organizing team directly</p>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 text-xs">
-            <a
-              style={{ fontFamily: "'Outfit', sans-serif" }}
-              href="tel:+919876543210"
-              className="px-5 py-2.5 bg-white/80 border border-[#ff5500]/18 rounded-full text-[#e04d00] tracking-wider font-bold hover:border-[#ff5500]/40 hover:bg-[#ff5500]/5 transition-all text-center"
-            >
-              +91 98765 43210
-            </a>
-            <a
-              style={{ fontFamily: "'Outfit', sans-serif" }}
-              href="tel:+919876543211"
-              className="px-5 py-2.5 bg-white/80 border border-[#ff5500]/18 rounded-full text-[#e04d00] tracking-wider font-bold hover:border-[#ff5500]/40 hover:bg-[#ff5500]/5 transition-all text-center"
-            >
-              +91 98765 43211
-            </a>
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <Magnetic>
+              <AnimatedShinyButton
+                url="tel:+919876543210"
+                className="px-6 py-3 font-bold text-center tracking-wider"
+                style={{ fontFamily: "'Outfit', sans-serif" }}
+              >
+                +91 98765 43210
+              </AnimatedShinyButton>
+            </Magnetic>
+            <Magnetic>
+              <AnimatedShinyButton
+                url="tel:+919876543211"
+                className="px-6 py-3 font-bold text-center tracking-wider"
+                style={{ fontFamily: "'Outfit', sans-serif" }}
+              >
+                +91 98765 43211
+              </AnimatedShinyButton>
+            </Magnetic>
           </div>
         </div>
       </ScrollReveal>

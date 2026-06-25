@@ -10,6 +10,7 @@ import AnimatedShinyButton from "../components/AnimatedShinyButton";
 import GlowingCard from "../components/GlowingCard";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { LeftOrnaments, RightOrnaments, MobileOrnaments } from "../components/HeroOrnaments";
+import { getPublicState } from "../lib/inceptionApi";
 
 // Lazy-loaded heavy components (reduces initial bundle)
 const RegisterModal = lazy(() => import("../components/RegisterModal"));
@@ -128,6 +129,7 @@ export default function Home() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [publicState, setPublicState] = useState(null);
 
   const { scrollY, scrollYProgress } = useScroll();
   const heroScale   = useTransform(scrollY, [0, 800], [1, 1.05]);
@@ -136,6 +138,8 @@ export default function Home() {
 
   const openRegister = () => setIsRegisterOpen(true);
   const closeRegister = () => setIsRegisterOpen(false);
+  const settings = publicState?.settings || {};
+  const announcements = publicState?.announcements || [];
 
   const clickCountRef = useRef(0);
 
@@ -146,6 +150,12 @@ export default function Home() {
   }, [scrollY]);
 
   useEffect(() => {
+    getPublicState()
+      .then(setPublicState)
+      .catch((error) => console.error("Failed to load Supabase public content:", error));
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "o") {
         e.preventDefault();
@@ -154,6 +164,82 @@ export default function Home() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const handleHashLinkClick = (e) => {
+      const anchor = e.target.closest("a");
+      if (!anchor) return;
+      
+      const href = anchor.getAttribute("href");
+      if (href && href.startsWith("#") && href.length > 1) {
+        const targetId = href.substring(1);
+        
+        if (targetId === "hero") {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.history.pushState(null, null, "#hero");
+          return;
+        }
+
+        const element = document.getElementById(targetId);
+        if (element) {
+          e.preventDefault();
+          
+          let absoluteElementTop = 0;
+          let el = element;
+          while (el) {
+            absoluteElementTop += el.offsetTop;
+            el = el.offsetParent;
+          }
+
+          const isMobile = window.innerWidth < 1024;
+          const navbarOffset = isMobile ? 85 : 112;
+
+          let targetScrollY;
+          if (isMobile) {
+            // On mobile view, align all sections to top with a consistent offset of 85px (navbar height + safety gap)
+            targetScrollY = absoluteElementTop - 85;
+          } else {
+            // Desktop specific offsets (unchanged)
+            if (targetId === "details") {
+              const container = element.querySelector('.relative.h-\\[380vh\\]') || element;
+              let containerTop = 0;
+              let cel = container;
+              while (cel) {
+                containerTop += cel.offsetTop;
+                cel = cel.offsetParent;
+              }
+              targetScrollY = containerTop - 112;
+            } else if (targetId === "about") {
+              targetScrollY = absoluteElementTop - 80;
+            } else if (targetId === "judging") {
+              const sectionHeight = element.offsetHeight || 700;
+              const viewportHeight = window.innerHeight;
+              targetScrollY = absoluteElementTop - 112 - (viewportHeight - 112 - sectionHeight) / 2;
+            } else if (targetId === "timeline") {
+              targetScrollY = absoluteElementTop;
+            } else if (targetId === "faq") {
+              targetScrollY = absoluteElementTop - 20;
+            } else {
+              targetScrollY = absoluteElementTop - 112;
+            }
+          }
+
+          targetScrollY = Math.max(0, targetScrollY);
+
+          window.scrollTo({
+            top: targetScrollY,
+            behavior: "smooth"
+          });
+
+          window.history.pushState(null, null, `#${targetId}`);
+        }
+      }
+    };
+
+    document.addEventListener("click", handleHashLinkClick);
+    return () => document.removeEventListener("click", handleHashLinkClick);
   }, []);
 
   const handleLogoClick = () => {
@@ -221,7 +307,7 @@ export default function Home() {
                 style={{ scale: heroScale, opacity: heroOpacity, display: "inline-block" }}
                 className="shimmer-title"
               >
-                INCEPTION
+                {settings.hero_title || "INCEPTION"}
               </motion.span>
             </h1>
           </div>
@@ -229,7 +315,7 @@ export default function Home() {
           {/* Subtitle */}
           <div className="text-stone-600 text-sm md:text-base max-w-xl leading-relaxed tracking-wide mb-8 font-light text-center px-4">
             <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}>
-              A premium 24-hour inter-college hackathon crafted for developers and engineers who build. Solve real-world industry problems, prototype bold ideas, and bridge the gap between academia and industry.
+              {settings.hero_subtitle || "A premium 24-hour inter-college hackathon crafted for developers and engineers who build. Solve real-world industry problems, prototype bold ideas, and bridge the gap between academia and industry."}
             </motion.p>
           </div>
 
@@ -270,7 +356,7 @@ export default function Home() {
             <BorderBeam size={BEAM_SIZE_SMALL} duration={8} />
             {[
               { value: 24, suffix: "H", label: "Duration" },
-              { value: 30, suffix: "",  label: "Teams" },
+              { value: publicState?.registrationCount ?? 30, suffix: "",  label: "Teams" },
               { value: 120, suffix: "+", label: "Participants" },
               { value: "MAR 26", suffix: "", label: "Launch Date", isText: true },
             ].map((stat, i) => (
@@ -289,6 +375,32 @@ export default function Home() {
       </section>
 
       {/* ── Sections ─────────────────────────────────────────── */}
+      {announcements.length > 0 && (
+        <section id="announcements" className="relative px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#ff5500]">Live Updates</p>
+                <h2 className="mt-2 text-3xl font-black tracking-tight text-stone-900" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                  Announcements
+                </h2>
+              </div>
+              <span className="text-xs uppercase tracking-widest text-stone-500">Synced from Supabase CMS</span>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {announcements.slice(0, 3).map((item) => (
+                <div key={item.id} className="rounded-2xl border border-stone-200 bg-white/85 p-5 shadow-sm backdrop-blur">
+                  <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                    {new Date(item.created_at).toLocaleDateString()}
+                  </p>
+                  <h3 className="text-base font-black text-stone-900">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">{item.content}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
       <ErrorBoundary><AboutSection /></ErrorBoundary>
       <ErrorBoundary><DetailsSection /></ErrorBoundary>
       <ErrorBoundary><ScheduleSection /></ErrorBoundary>
@@ -308,9 +420,9 @@ export default function Home() {
             <div className="flex flex-col gap-2">
               <span
                 onClick={handleLogoClick}
-                className="text-lg font-black tracking-widest text-[#1c1917] cursor-pointer select-none"
+                className="text-lg font-black tracking-widest text-[#ff5500] hover:text-[#ff8c42] transition-colors cursor-pointer select-none"
               >
-                IN<span className="text-[#ff5500]">CEPTION</span>
+                INCEPTION
               </span>
               <span className="text-stone-500 text-xs font-semibold">
                 Organized by the Department of Electronics and Communication Engineering

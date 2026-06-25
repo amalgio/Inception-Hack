@@ -1,16 +1,89 @@
-# React + Vite
+# INCEPTION Hackathon Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Production-ready Vite/React frontend for the INCEPTION hackathon with Supabase-backed registration, admin authentication, CMS content, analytics, and exports.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + Vite
+- Tailwind CSS
+- Supabase PostgreSQL, Auth, RLS, and REST/RPC APIs
+- Vercel static hosting
 
-## React Compiler
+## Local Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Install dependencies:
 
-## Expanding the ESLint configuration
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Copy environment variables:
+
+```bash
+copy .env.example .env.local
+```
+
+3. Fill:
+
+```env
+VITE_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_PUBLIC_KEY
+VITE_GOOGLE_FORM_URL=https://forms.gle/YOUR_GOOGLE_FORM_LINK
+```
+
+4. Run the app:
+
+```bash
+npm run dev
+```
+
+## Supabase Setup
+
+1. Create a Supabase project.
+2. Open SQL Editor.
+3. Run [`supabase/schema.sql`](./supabase/schema.sql).
+4. In Authentication, create an email/password user for the first admin.
+5. In SQL Editor, insert that email into `admins`:
+
+```sql
+insert into public.admins (email, role)
+values ('admin@example.com', 'admin')
+on conflict (email) do nothing;
+```
+
+The admin dashboard opens from the existing organizer trigger and requires that Supabase Auth user plus a matching row in `admins`.
+
+## Registration Rules
+
+- Server-side insert runs through `public.register_team(payload jsonb)`.
+- Duplicate email and mobile numbers are blocked in PostgreSQL.
+- Registration IDs are generated as `INC-2026-0001`, `INC-2026-0002`, etc.
+- When the configured limit is reached, registration closes automatically.
+- The public modal displays `Registrations are currently closed.` when closed or full.
+
+## Admin Features
+
+- Overview cards: total registrations, limit, remaining slots, today's registrations.
+- Registration search and CSV / Excel-compatible export.
+- Website settings: hero copy, contact details, registration open/close, registration limit, themes, social links.
+- CMS collections: announcements, FAQ, timeline, sponsors.
+- Admin management: add/remove admin emails.
+
+## Vercel Deployment
+
+1. Push the repository to GitHub.
+2. Import the project in Vercel.
+3. Set the build command to `npm run build`.
+4. Set the output directory to `dist`.
+5. Add the same `VITE_*` environment variables in Vercel Project Settings.
+6. Deploy.
+
+## Production Checklist
+
+- Run the Supabase SQL script.
+- Create the first Supabase Auth admin.
+- Insert the first row in `admins`.
+- Confirm RLS is enabled on all public tables.
+- Set Vercel environment variables.
+- Run `npm run build`.
+- Test registration, duplicate email/mobile rejection, admin login, exports, and CMS updates.

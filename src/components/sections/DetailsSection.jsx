@@ -4,69 +4,18 @@ import { Zap } from "lucide-react";
 import GlowingCard from "../GlowingCard";
 import ScrollReveal from "../ScrollReveal";
 import imageDetailsBG from "../../assets/Image_Details_BG.png";
+import imgSaturn from "../../assets/3d_saturn.png";
 
-// The Saturn/Sun orbit component matching the design aesthetic
-function SunSystem({ sphereGlow, sphereShadow }) {
+// The Saturn/Sun component matching the design aesthetic
+function SunSystem() {
   return (
-    <div className="absolute right-[6%] top-[14%] w-[280px] h-[280px] pointer-events-none select-none z-10 flex items-center justify-center">
-      
-      {/* Concentric orbital rings in background */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[280px] h-[230px] rounded-full border border-dashed border-[#ff5500]/15 animate-spin-slow absolute" style={{ transform: "rotate(15deg)" }} />
-        <div className="w-[210px] h-[175px] rounded-full border border-dashed border-[#ff5500]/20 animate-spin-reverse absolute" style={{ transform: "rotate(-10deg)" }} />
-        <div className="w-[150px] h-[125px] rounded-full border border-dashed border-stone-300/40 absolute" />
-      </div>
-
-      {/* Ambient background soft glow */}
-      <div className="absolute w-36 h-36 rounded-full bg-[#ff5500]/8 filter blur-xl animate-pulse" />
-
-      {/* Back-half of Saturn Ring */}
-      <div 
-        style={{ 
-          width: "170px", 
-          height: "44px", 
-          transform: "translate(-50%, -50%) rotate(-18deg)" 
-        }}
-        className="absolute left-1/2 top-1/2 rounded-full border-[2px] border-orange-400/40 z-0"
+    <div className="absolute right-[-18%] top-[-15%] w-[390px] h-[390px] pointer-events-none select-none z-10 flex items-center justify-center">
+      {/* 3D Saturn Image */}
+      <img
+        src={imgSaturn}
+        alt="3D Saturn"
+        className="w-[350px] h-auto object-contain z-10 animate-float opacity-80"
       />
-
-      {/* Glossy 3D clay sphere */}
-      <div 
-        style={{ 
-          boxShadow: `inset -6px -6px 15px rgba(0,0,0,0.3), 0 15px 30px ${sphereShadow}` 
-        }}
-        className={`w-24 h-24 rounded-full bg-gradient-to-tr ${sphereGlow} relative overflow-hidden z-10`}
-      >
-        {/* Gloss highlight */}
-        <div className="absolute top-[8%] left-[8%] w-[84%] h-[40%] rounded-full bg-gradient-to-b from-white/35 to-transparent blur-[1px]" />
-        <div className="absolute inset-0 rounded-full border border-white/10" />
-      </div>
-
-      {/* Front-half of Saturn Ring */}
-      <div 
-        style={{ 
-          width: "170px", 
-          height: "44px", 
-          transform: "translate(-50%, -50%) rotate(-18deg)",
-          clipPath: "polygon(0% 40%, 75% 40%, 75% 100%, 0% 100%)"
-        }}
-        className="absolute left-1/2 top-1/2 rounded-full border-[2px] border-orange-500/70 z-20 pointer-events-none"
-      />
-
-      {/* Orbiting dot */}
-      <motion.div 
-        animate={{ 
-          x: [0, 35, 0, -35, 0],
-          y: [-35, 0, 35, 0, -35]
-        }}
-        transition={{ 
-          duration: 7,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-        className="absolute w-3 h-3 rounded-full bg-[#ff8c42] shadow-[0_0_8px_rgba(255,140,66,0.6)] z-30"
-      />
-
     </div>
   );
 }
@@ -452,7 +401,7 @@ export default function DetailsSection() {
           </div>
 
           {/* Right Column: Active Card Details */}
-          <div className="w-[68%] glass-panel rounded-3xl border border-stone-200/50 shadow-sm relative overflow-hidden bg-white/40 flex flex-col justify-between p-10 min-h-[520px]">
+          <div className="w-[68%] glass-panel rounded-3xl border border-stone-200/50 shadow-sm relative overflow-visible bg-white/40 flex flex-col justify-between p-10 min-h-[520px]">
             
             <div className="absolute inset-0 bg-gradient-to-tr from-stone-500/[0.01] via-transparent to-amber-500/[0.02] pointer-events-none" />
 
@@ -576,8 +525,8 @@ export default function DetailsSection() {
               ))}
             </ul>
             
-            <div className="absolute right-4 bottom-24 w-16 h-16 opacity-15 pointer-events-none select-none z-0 flex items-center justify-center">
-              <div className={`w-12 h-12 rounded-full bg-gradient-to-tr ${step.sphereGlow} shadow-[inset_-4px_-4px_10px_rgba(0,0,0,0.3)]`} />
+            <div className="absolute right-3 bottom-16 w-28 h-28 opacity-15 pointer-events-none select-none z-0 flex items-center justify-center">
+              <img src={imgSaturn} className="w-full h-full object-contain animate-float opacity-80" alt="" />
             </div>
 
 

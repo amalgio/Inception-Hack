@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Lightbulb, Target, Rocket, Zap, Users, Code2, TrendingUp, GraduationCap, Network, Handshake, Globe, Compass, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Zap } from "lucide-react";
 import ScrollReveal from "../ScrollReveal";
+
+import imgLightbulb from "../../assets/3d_about_lightbulb.png";
+import imgTarget from "../../assets/3d_about_target.png";
+import imgBridge from "../../assets/3d_about_bridge.png";
+import imgCubes from "../../assets/3d_about_cubes.png";
+import imgNetwork from "../../assets/3d_about_network.png";
+import imgCollaboration from "../../assets/3d_about_collaboration.png";
+import imgMentorsPlatform from "../../assets/3d_about_mentors_platform.png";
+import imgMagnifyingGlass from "../../assets/3d_about_magnifying_glass.png";
 
 // Custom minimal arch bridge icon
 function BridgeIcon(props) {
@@ -24,7 +33,7 @@ function BridgeIcon(props) {
 }
 
 // 3D glossy circular node component
-function OrbitNode({ icon: Icon, title1, title2, desc, positionStyle, labelPosition, labelVerticalAlign, delay }) {
+function OrbitNode({ image, title1, title2, desc, positionStyle, labelPosition, labelVerticalAlign, delay }) {
   const isLabelLeft = labelPosition === "left";
   const isLabelRight = labelPosition === "right";
   const isLabelTop = labelPosition === "top";
@@ -38,19 +47,18 @@ function OrbitNode({ icon: Icon, title1, title2, desc, positionStyle, labelPosit
       className="absolute z-20 group transform -translate-x-1/2 -translate-y-1/2"
     >
       <motion.div
-        initial={{ scale: 0, opacity: 0 }}
+        initial={{ scale: 0.92, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay, type: "spring", stiffness: 85 }}
+        transition={{ duration: 0.8, delay, ease: "easeOut" }}
         className="flex items-center justify-center relative"
       >
-        {/* Node Button with premium 3D claymorphic glow */}
+        {/* Node Button */}
         <motion.div
           whileHover={{ scale: 1.08, translateY: -2 }}
-          className="w-16 h-16 rounded-full bg-white border border-stone-200/50 shadow-[0_12px_28px_rgba(28,25,23,0.06),_inset_0_2px_4px_rgba(255,255,255,0.95),_0_0_15px_rgba(255,90,31,0.03)] flex items-center justify-center text-[#FF5A1F] cursor-pointer relative shrink-0"
+          className="w-[90px] h-[90px] flex items-center justify-center cursor-pointer relative shrink-0"
         >
-          <div className="absolute inset-0 rounded-full bg-[#FF5A1F]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
-          <Icon size={24} strokeWidth={2.4} className="relative z-10" />
+          <img src={image} alt={title1} className="w-[90px] h-[90px] object-contain relative z-10 select-none pointer-events-none" />
         </motion.div>
 
         {/* Label Content */}
@@ -89,7 +97,7 @@ function OrbitNode({ icon: Icon, title1, title2, desc, positionStyle, labelPosit
 }
 
 // Mobile Card component for About section
-function AboutMobileCard({ icon: Icon, title, desc, accentColor, delay }) {
+function AboutMobileCard({ image, title, desc, accentColor, delay }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -107,10 +115,10 @@ function AboutMobileCard({ icon: Icon, title, desc, accentColor, delay }) {
 
       {/* Icon Wrapper with glowing background */}
       <div 
-        style={{ color: accentColor, backgroundColor: `${accentColor}08`, borderColor: `${accentColor}15` }}
+        style={{ backgroundColor: `${accentColor}08`, borderColor: `${accentColor}15` }}
         className="w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 relative"
       >
-        <Icon size={19} strokeWidth={2.4} />
+        <img src={image} className="w-6 h-6 object-contain" alt="" />
       </div>
 
       {/* Text column */}
@@ -137,31 +145,31 @@ const categories = [
     title: "Encourage Innovation",
     desc: "Push the boundaries of embedded and software development through unconstrained, creative problem solving.",
     accentColor: "#FF5A1F",
-    icon: Lightbulb,
+    image: imgLightbulb,
     badge: "01 / INNOVATE"
   },
   {
     id: 1,
     title: "Real-World Problems",
     desc: "Industry partners bring live challenges. Your solutions won’t just win prizes — they could see actual deployment.",
-    accentColor: "#F59E0B",
-    icon: Globe,
+    accentColor: "#FF5A1F",
+    image: imgTarget,
     badge: "02 / SOLUTIONS"
   },
   {
     id: 2,
     title: "Academia-Industry Bridge",
     desc: "Work alongside industry mentors from Tamizh, Inspire Solutions, and Infintin Mobility Solutions Pvt Ltd.",
-    accentColor: "#3B82F6",
-    icon: Handshake,
+    accentColor: "#FF5A1F",
+    image: imgBridge,
     badge: "03 / PARTNERSHIPS"
   },
   {
     id: 3,
     title: "Startup Culture",
     desc: "Top solutions may be considered for pilot implementation and incubation support. Think product, not assignment.",
-    accentColor: "#8B5CF6",
-    icon: Rocket,
+    accentColor: "#FF5A1F",
+    image: imgCubes,
     badge: "04 / LAUNCHPAD"
   }
 ];
@@ -176,7 +184,6 @@ function AboutMobileSlider() {
   };
 
   const activeCategory = categories[activeIndex];
-  const Icon = activeCategory.icon;
 
   const slideVariants = {
     enter: (dir) => ({
@@ -201,7 +208,7 @@ function AboutMobileSlider() {
   return (
     <div className="w-full flex flex-col gap-5 select-none overflow-visible">
       {/* Slider View Area with AnimatePresence */}
-      <div className="relative w-full overflow-hidden min-h-[170px] flex items-stretch">
+      <div className="relative w-full overflow-hidden min-h-[160px] flex items-stretch">
         <AnimatePresence initial={false} mode="wait" custom={direction}>
           <motion.div
             key={page}
@@ -215,7 +222,7 @@ function AboutMobileSlider() {
               opacity: { duration: 0.2 },
               scale: { duration: 0.2 }
             }}
-            className="w-full bg-white border border-stone-200/50 rounded-2xl p-5 flex flex-col text-left shadow-[0_6px_20px_rgba(28,25,23,0.03)] relative overflow-hidden"
+            className="w-full bg-white border border-stone-200/50 rounded-2xl p-5 flex flex-row items-center justify-between text-left shadow-[0_6px_20px_rgba(28,25,23,0.03)] relative overflow-hidden"
             style={{
               borderColor: `${activeCategory.accentColor}18`,
               boxShadow: `0 8px 24px rgba(28, 25, 23, 0.02), 0 0 20px ${activeCategory.accentColor}02`
@@ -227,37 +234,36 @@ function AboutMobileSlider() {
               className="absolute left-0 top-0 bottom-0 w-[4px]" 
             />
 
-            <div className="flex items-center justify-between mb-3 w-full">
+            {/* Left Column: Text Content */}
+            <div className="flex-1 pr-4 z-10 flex flex-col justify-center">
               <span 
-                style={{ fontFamily: "'Outfit', sans-serif" }}
-                className="text-[10px] font-extrabold tracking-wider uppercase"
-                style={{ color: activeCategory.accentColor }}
+                style={{ fontFamily: "'Outfit', sans-serif", color: activeCategory.accentColor }}
+                className="text-[10px] font-extrabold tracking-wider uppercase mb-1"
               >
                 {activeCategory.badge}
               </span>
               
-              <div 
-                className="w-8 h-8 rounded-lg border flex items-center justify-center shrink-0"
-                style={{ 
-                  color: activeCategory.accentColor, 
-                  backgroundColor: `${activeCategory.accentColor}06`,
-                  borderColor: `${activeCategory.accentColor}12`
-                }}
+              <h4 
+                style={{ fontFamily: "'Outfit', sans-serif" }}
+                className="text-stone-900 font-extrabold text-[14px] tracking-wide uppercase mb-1.5 leading-tight"
               >
-                <Icon size={17} strokeWidth={2.4} />
-              </div>
+                {activeCategory.title}
+              </h4>
+              
+              <p className="text-stone-550 text-[10.5px] leading-relaxed font-normal">
+                {activeCategory.desc}
+              </p>
             </div>
 
-            <h4 
-              style={{ fontFamily: "'Outfit', sans-serif" }}
-              className="text-stone-900 font-extrabold text-[14px] tracking-wide uppercase mb-1.5"
-            >
-              {activeCategory.title}
-            </h4>
-            
-            <p className="text-stone-500 text-[10.5px] leading-relaxed font-normal">
-              {activeCategory.desc}
-            </p>
+            {/* Right Column: 3D Image */}
+            <div className="w-20 h-20 shrink-0 flex items-center justify-center relative select-none pointer-events-none z-10">
+              <div 
+                className="absolute inset-0 rounded-full filter blur-md"
+                style={{ backgroundColor: `${activeCategory.accentColor}12` }}
+              />
+              <img src={activeCategory.image} className="w-16 h-16 object-contain relative z-10 animate-float" alt="" />
+            </div>
+
           </motion.div>
         </AnimatePresence>
       </div>
@@ -311,22 +317,22 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto border-t border-stone-200/50 relative overflow-visible rounded-3xl z-10"
+      className="min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-80px)] pt-12 pb-6 md:pt-14 md:pb-6 px-4 md:px-6 max-w-7xl mx-auto border-t border-stone-200/50 relative overflow-visible rounded-3xl z-10"
     >
       {/* Background Soft Glows & Corner Gradient Shades */}
       <div className="absolute top-1/4 left-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] bg-amber-500/[0.03] rounded-full filter blur-[100px] pointer-events-none z-0 animate-slow-pulse-2" />
       <div className="absolute bottom-1/4 right-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] bg-[#FF5A1F]/[0.03] rounded-full filter blur-[120px] pointer-events-none z-0 animate-slow-pulse-3" />
       
       {/* Top Right Gradient Shade */}
-      <div className="absolute top-0 right-0 w-[40vw] h-[40vw] max-w-[380px] max-h-[380px] bg-gradient-to-bl from-[#FF5A1F]/[0.22] via-amber-500/[0.04] to-transparent rounded-full filter blur-[80px] pointer-events-none z-0" />
+      <div className="absolute -top-16 md:-top-24 -right-16 md:-right-32 w-[40vw] h-[40vw] max-w-[400px] max-h-[400px] bg-gradient-to-bl from-[#FF5A1F]/[0.35] via-amber-500/[0.12] to-transparent rounded-full filter blur-[100px] pointer-events-none z-0" />
       
       {/* Bottom Left Gradient Shade */}
-      <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] max-w-[380px] max-h-[380px] bg-gradient-to-tr from-amber-500/[0.22] via-[#FF5A1F]/[0.04] to-transparent rounded-full filter blur-[80px] pointer-events-none z-0" />
+      <div className="absolute -bottom-16 md:-bottom-24 -left-16 md:-left-32 w-[40vw] h-[40vw] max-w-[400px] max-h-[400px] bg-gradient-to-tr from-[#FF5A1F]/[0.35] via-amber-500/[0.12] to-transparent rounded-full filter blur-[100px] pointer-events-none z-0" />
 
-      <div className="flex flex-col md:flex-row items-center justify-start gap-12 md:gap-20 relative z-10 w-full">
+      <div className="flex flex-col md:flex-row items-start justify-start gap-12 md:gap-20 relative z-10 w-full">
         
         {/* Left Column: Heading and Description */}
-        <ScrollReveal className="w-full md:w-[38%] lg:w-[36%] flex flex-col items-center text-center md:items-start md:text-left">
+        <ScrollReveal className="w-full md:w-[38%] lg:w-[36%] flex flex-col items-center text-center md:items-start md:text-left pt-2 md:pt-0 md:-mt-[35px]">
           <div className="bg-white shadow-[0_4px_16px_rgba(0,0,0,0.03)] border border-stone-200/50 rounded-full px-4 py-1.5 flex items-center gap-2 mb-6 select-none">
             <Zap size={11} className="text-[#FF5A1F] fill-[#FF5A1F]/15" />
             <span className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#FF5A1F]">
@@ -426,7 +432,7 @@ export default function AboutSection() {
               
               {/* 1. Top Node: Encourage Innovation */}
               <OrbitNode
-                icon={Lightbulb}
+                image={imgLightbulb}
                 title1="Encourage"
                 title2="Innovation"
                 desc={
@@ -444,7 +450,7 @@ export default function AboutSection() {
 
               {/* 2. Right Node: Real-World Problems */}
               <OrbitNode
-                icon={Globe}
+                image={imgTarget}
                 title1="Real-World"
                 title2="Problems"
                 desc={
@@ -461,7 +467,7 @@ export default function AboutSection() {
 
               {/* 3. Bottom Node: Startup Culture */}
               <OrbitNode
-                icon={Rocket}
+                image={imgCubes}
                 title1="Startup"
                 title2="Culture"
                 desc={
@@ -478,7 +484,7 @@ export default function AboutSection() {
 
               {/* 4. Left Node: Academia-Industry Bridge */}
               <OrbitNode
-                icon={Handshake}
+                image={imgBridge}
                 title1="Academia-Industry"
                 title2="Bridge"
                 desc={
@@ -499,13 +505,13 @@ export default function AboutSection() {
       </div>
 
       {/* Bottom Summary Glass Card Panel */}
-      <div className="glass-panel w-full py-4 px-6 md:py-5 md:px-8 rounded-[24px] border border-stone-200/50 bg-white/40 flex flex-col md:flex-row justify-between items-stretch gap-8 md:gap-4 mt-16 relative overflow-hidden select-none shadow-[0_12px_32px_-8px_rgba(28,25,23,0.04)]">
+      <div className="glass-panel w-full py-4 px-6 md:py-5 md:px-8 rounded-[24px] border border-stone-200/50 bg-white/40 flex flex-col md:flex-row justify-between items-stretch gap-8 md:gap-4 mt-10 relative overflow-hidden select-none shadow-[0_12px_32px_-8px_rgba(28,25,23,0.04)]">
         <div className="absolute inset-0 bg-gradient-to-tr from-stone-500/[0.01] via-transparent to-amber-500/[0.01] pointer-events-none" />
         
         {/* Item 1 */}
         <div className="flex items-center gap-4 relative z-10 flex-1 pl-2">
-          <div className="w-12 h-12 rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)] border border-stone-200/40 flex items-center justify-center text-[#FF5A1F] shrink-0">
-            <Zap size={20} strokeWidth={2} className="fill-[#FF5A1F]/10" />
+          <div className="w-12 h-12 flex items-center justify-center shrink-0">
+            <img src={imgMagnifyingGlass} className="w-11 h-11 object-contain select-none pointer-events-none" alt="" />
           </div>
           <div className="flex flex-col text-left">
             <span style={{ fontFamily: "'Outfit', sans-serif" }} className="text-stone-900 font-extrabold text-[12px] tracking-wider uppercase leading-none">
@@ -522,8 +528,8 @@ export default function AboutSection() {
 
         {/* Item 2 */}
         <div className="flex items-center gap-4 relative z-10 flex-1 pl-2">
-          <div className="w-12 h-12 rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)] border border-stone-200/40 flex items-center justify-center text-[#FF5A1F] shrink-0">
-            <Users size={20} strokeWidth={2} className="fill-[#FF5A1F]/10" />
+          <div className="w-12 h-12 flex items-center justify-center shrink-0">
+            <img src={imgCollaboration} className="w-11 h-11 object-contain select-none pointer-events-none" alt="" />
           </div>
           <div className="flex flex-col text-left">
             <span style={{ fontFamily: "'Outfit', sans-serif" }} className="text-stone-900 font-extrabold text-[12px] tracking-wider uppercase leading-none">
@@ -540,8 +546,8 @@ export default function AboutSection() {
 
         {/* Item 3 */}
         <div className="flex items-center gap-4 relative z-10 flex-1 pl-2">
-          <div className="w-12 h-12 rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)] border border-stone-200/40 flex items-center justify-center text-[#FF5A1F] shrink-0">
-            <Code2 size={20} strokeWidth={2} />
+          <div className="w-12 h-12 flex items-center justify-center shrink-0">
+            <img src={imgNetwork} className="w-11 h-11 object-contain select-none pointer-events-none" alt="" />
           </div>
           <div className="flex flex-col text-left">
             <span style={{ fontFamily: "'Outfit', sans-serif" }} className="text-stone-900 font-extrabold text-[12px] tracking-wider uppercase leading-none">
@@ -558,8 +564,8 @@ export default function AboutSection() {
 
         {/* Item 4 */}
         <div className="flex items-center gap-4 relative z-10 flex-1 pl-2">
-          <div className="w-12 h-12 rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.03)] border border-stone-200/40 flex items-center justify-center text-[#FF5A1F] shrink-0">
-            <TrendingUp size={20} strokeWidth={2} />
+          <div className="w-12 h-12 flex items-center justify-center shrink-0">
+            <img src={imgMentorsPlatform} className="w-11 h-11 object-contain select-none pointer-events-none" alt="" />
           </div>
           <div className="flex flex-col text-left">
             <span style={{ fontFamily: "'Outfit', sans-serif" }} className="text-stone-900 font-extrabold text-[12px] tracking-wider uppercase leading-none">
