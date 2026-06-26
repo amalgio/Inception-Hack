@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: initial;
     font-family: 'Outfit', sans-serif;
     /* Fluid base font size: 14px → 16px over 375px → 1440px */
     font-size: clamp(0.875rem, 0.5rem + 0.8vw, 1rem);
