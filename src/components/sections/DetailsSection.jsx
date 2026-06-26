@@ -25,9 +25,6 @@ export default function DetailsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeIndexRef = useRef(0);
-  const isTransitioningRef = useRef(false);
-  const scrollTimeoutRef = useRef(null);
-  const animationFrameRef = useRef(null);
 
   // Helper to calculate top offset relative to document
   const getElementTop = (el) => {
@@ -39,63 +36,20 @@ export default function DetailsSection() {
     return top;
   };
 
-  // Custom Smooth Scroll Animator
-  const animateScrollTo = useCallback((target, index, duration = 650) => {
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-
-    isTransitioningRef.current = true;
-    document.documentElement.style.scrollBehavior = "auto";
-    
-    const start = window.scrollY;
-    const change = target - start;
-    let startTime = null;
-
+  // Custom Smooth Scroll Animator using native smooth behavior (delegated to Lenis)
+  const animateScrollTo = useCallback((target, index) => {
     activeIndexRef.current = index;
     setActiveIndex(index);
-
-    const animate = (currentTime) => {
-      if (startTime === null) {
-        startTime = currentTime;
-      }
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      const eased = progress < 0.5
-        ? 4 * progress * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-      window.scrollTo({
-        top: start + change * eased,
-        behavior: "auto"
-      });
-
-      if (progress < 1) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        window.scrollTo({
-          top: target,
-          behavior: "auto"
-        });
-        scrollTimeoutRef.current = setTimeout(() => {
-          isTransitioningRef.current = false;
-          document.documentElement.style.scrollBehavior = "smooth";
-        }, 150);
-      }
-    };
-
-    animationFrameRef.current = requestAnimationFrame(animate);
+    window.scrollTo({
+      top: target,
+      behavior: "smooth"
+    });
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerWidth < 1024) return;
       if (!containerRef.current) return;
-      if (isTransitioningRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
       const scrolledPast = -rect.top;
@@ -117,106 +71,13 @@ export default function DetailsSection() {
       }
     };
 
-    const scrollToStep = (index, S_start, R) => {
-      const targetScroll = S_start + (index / 3) * R;
-      animateScrollTo(targetScroll, index);
-    };
-
-    const handleWheel = (e) => {
-      if (window.innerWidth < 1024) return;
-      if (!containerRef.current) return;
-
-      if (isTransitioningRef.current) {
-        e.preventDefault();
-        return;
-      }
-
-      const S_start = getElementTop(containerRef.current) - 112; 
-      const R = containerRef.current.offsetHeight - window.innerHeight;
-      const S_end = S_start + R;
-      const currentScroll = window.scrollY;
-
-      const isInside = currentScroll >= S_start - 5 && currentScroll <= S_end + 5;
-
-      if (!isInside) {
-        if (currentScroll < S_start && currentScroll > S_start - 100 && e.deltaY > 35) {
-          e.preventDefault();
-          scrollToStep(0, S_start, R);
-        } else if (currentScroll > S_end && currentScroll < S_end + 100 && e.deltaY < -35) {
-          e.preventDefault();
-          scrollToStep(3, S_start, R);
-        }
-        return;
-      }
-
-      if (Math.abs(e.deltaY) < 35) {
-        e.preventDefault();
-        return;
-      }
-
-      const dir = e.deltaY > 0 ? 1 : -1;
-      const currentIndex = activeIndexRef.current;
-      const nextIndex = currentIndex + dir;
-
-      if (nextIndex >= 0 && nextIndex <= 3) {
-        e.preventDefault();
-        scrollToStep(nextIndex, S_start, R);
-      }
-    };
-
-    const handleKeyDown = (e) => {
-      if (window.innerWidth < 1024) return;
-      if (!containerRef.current) return;
-
-      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
-      if (!keys.includes(e.key)) return;
-
-      if (isTransitioningRef.current) {
-        e.preventDefault();
-        return;
-      }
-
-      const S_start = getElementTop(containerRef.current) - 112;
-      const R = containerRef.current.offsetHeight - window.innerHeight;
-      const S_end = S_start + R;
-      const currentScroll = window.scrollY;
-
-      const isInside = currentScroll >= S_start - 5 && currentScroll <= S_end + 5;
-
-      if (!isInside) return;
-
-      let dir = 0;
-      if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
-        dir = 1;
-      } else if (e.key === "ArrowUp" || e.key === "PageUp") {
-        dir = -1;
-      }
-
-      if (dir === 0) return;
-
-      const currentIndex = activeIndexRef.current;
-      const nextIndex = currentIndex + dir;
-
-      if (nextIndex >= 0 && nextIndex <= 3) {
-        e.preventDefault();
-        scrollToStep(nextIndex, S_start, R);
-      }
-    };
-
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("keydown", handleKeyDown);
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("keydown", handleKeyDown);
-      document.documentElement.style.scrollBehavior = "smooth";
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [animateScrollTo]);
+  }, []);
 
   const steps = useMemo(() => [
     {
