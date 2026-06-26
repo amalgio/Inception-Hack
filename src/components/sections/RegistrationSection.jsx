@@ -43,7 +43,7 @@ export default function RegistrationSection({ onRegisterClick }) {
   return (
     <section id="register" className="py-16 md:py-24 px-4 md:px-6 max-w-4xl mx-auto border-t border-stone-200/50 relative overflow-visible">
       {/* Background Soft Glow */}
-      <div className="absolute inset-0 bg-[#ff5500]/[0.02] filter blur-[120px] rounded-full pointer-events-none -z-10 animate-pulse" />
+      <div className="absolute inset-0 rounded-full pointer-events-none -z-10" style={{ background: "radial-gradient(circle, rgba(255, 85, 0, 0.02) 0%, transparent 70%)" }} />
 
       <ScrollReveal className="flex flex-col items-center justify-center w-full relative">
         

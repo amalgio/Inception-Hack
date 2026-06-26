@@ -66,7 +66,7 @@ export default function FAQSection() {
 
   return (
     <section id="faq" className="py-12 md:py-24 px-4 md:px-6 max-w-4xl mx-auto border-t border-stone-200/50 relative overflow-hidden rounded-3xl bg-gradient-to-b from-transparent via-[#ff5500]/[0.005] to-transparent">
-      <div className="absolute top-1/4 left-10 w-[40vw] h-[40vw] max-w-[350px] max-h-[350px] bg-[#ff5500]/2 rounded-full filter blur-[80px] pointer-events-none -z-20 animate-slow-pulse-3" />
+      <div className="absolute top-1/4 left-10 w-[40vw] h-[40vw] max-w-[350px] max-h-[350px] rounded-full pointer-events-none -z-20" style={{ background: "radial-gradient(circle, rgba(255, 85, 0, 0.02) 0%, transparent 70%)" }} />
 
       <ScrollReveal className="text-center mb-16 relative">
         <motion.div

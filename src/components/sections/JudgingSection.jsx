@@ -103,8 +103,8 @@ export default function JudgingSection() {
       className="pt-10 pb-16 md:pt-14 md:pb-24 px-4 md:px-6 max-w-7xl mx-auto border-t border-stone-200/50 relative overflow-visible rounded-3xl bg-[#FAF8F5] select-none"
     >
       {/* Background Soft Glows & Gradients */}
-      <div className="absolute top-1/4 left-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] bg-amber-500/[0.02] rounded-full filter blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 right-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] bg-[#FF6A00]/[0.02] rounded-full filter blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-1/4 left-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] rounded-full pointer-events-none z-0" style={{ background: "radial-gradient(circle, rgba(245, 158, 11, 0.02) 0%, transparent 70%)" }} />
+      <div className="absolute bottom-1/4 right-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] rounded-full pointer-events-none z-0" style={{ background: "radial-gradient(circle, rgba(255, 106, 0, 0.02) 0%, transparent 70%)" }} />
 
       <ScrollReveal className="text-center mb-6 relative select-none z-10">
         <motion.div

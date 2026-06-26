@@ -320,14 +320,14 @@ export default function AboutSection() {
       className="min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-80px)] pt-12 pb-6 md:pt-14 md:pb-6 px-4 md:px-6 max-w-7xl mx-auto border-t border-stone-200/50 relative overflow-visible rounded-3xl z-10"
     >
       {/* Background Soft Glows & Corner Gradient Shades */}
-      <div className="absolute top-1/4 left-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] bg-amber-500/[0.03] rounded-full filter blur-[100px] pointer-events-none z-0 animate-slow-pulse-2" />
-      <div className="absolute bottom-1/4 right-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] bg-[#FF5A1F]/[0.03] rounded-full filter blur-[120px] pointer-events-none z-0 animate-slow-pulse-3" />
+      <div className="absolute top-1/4 left-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] rounded-full pointer-events-none z-0" style={{ background: "radial-gradient(circle, rgba(245, 158, 11, 0.03) 0%, transparent 70%)" }} />
+      <div className="absolute bottom-1/4 right-10 w-[45vw] h-[45vw] max-w-[400px] max-h-[400px] rounded-full pointer-events-none z-0" style={{ background: "radial-gradient(circle, rgba(255, 90, 31, 0.03) 0%, transparent 70%)" }} />
       
       {/* Top Right Gradient Shade */}
-      <div className="absolute -top-16 md:-top-24 -right-16 md:-right-32 w-[40vw] h-[40vw] max-w-[400px] max-h-[400px] bg-gradient-to-bl from-[#FF5A1F]/[0.35] via-amber-500/[0.12] to-transparent rounded-full filter blur-[100px] pointer-events-none z-0" />
+      <div className="absolute -top-16 md:-top-24 -right-16 md:-right-32 w-[40vw] h-[40vw] max-w-[400px] max-h-[400px] rounded-full pointer-events-none z-0" style={{ background: "radial-gradient(circle at top right, rgba(255, 90, 31, 0.15) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 70%)" }} />
       
       {/* Bottom Left Gradient Shade */}
-      <div className="absolute -bottom-16 md:-bottom-24 -left-16 md:-left-32 w-[40vw] h-[40vw] max-w-[400px] max-h-[400px] bg-gradient-to-tr from-[#FF5A1F]/[0.35] via-amber-500/[0.12] to-transparent rounded-full filter blur-[100px] pointer-events-none z-0" />
+      <div className="absolute -bottom-16 md:-bottom-24 -left-16 md:-left-32 w-[40vw] h-[40vw] max-w-[400px] max-h-[400px] rounded-full pointer-events-none z-0" style={{ background: "radial-gradient(circle at bottom left, rgba(255, 90, 31, 0.15) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 70%)" }} />
 
       <div className="flex flex-col md:flex-row items-start justify-start gap-12 md:gap-20 relative z-10 w-full">
         

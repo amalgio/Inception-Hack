@@ -176,7 +176,7 @@ export default function DetailsSection() {
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#faf9f6] to-transparent pointer-events-none -z-10" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#faf9f6] to-transparent pointer-events-none -z-10" />
 
-      <div className="absolute bottom-10 right-0 w-[50vw] h-[50vw] max-w-[450px] max-h-[450px] bg-[#ff8c42]/6 rounded-full filter blur-[110px] pointer-events-none -z-20 animate-slow-pulse-3" />
+      <div className="absolute bottom-10 right-0 w-[50vw] h-[50vw] max-w-[450px] max-h-[450px] rounded-full pointer-events-none -z-20" style={{ background: "radial-gradient(circle, rgba(255, 140, 66, 0.05) 0%, transparent 70%)" }} />
 
       {/* Centered Content Wrapper */}
       <div className="max-w-6xl mx-auto px-4 md:px-6 relative">

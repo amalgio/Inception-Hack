@@ -359,8 +359,8 @@ export default function ScheduleSection() {
       ref={containerRef}
       className="py-16 md:py-28 px-4 md:px-6 max-w-5xl mx-auto border-t border-stone-200/50 relative overflow-visible rounded-3xl"
     >
-      <div className="absolute top-10 left-10 w-[40vw] h-[40vw] max-w-[350px] max-h-[350px] bg-[#ff5500]/3 rounded-full filter blur-[90px] pointer-events-none -z-20 animate-slow-pulse-1" />
-      <div className="absolute bottom-10 right-10 w-[40vw] h-[40vw] max-w-[350px] max-h-[350px] bg-[#ff5500]/2 rounded-full filter blur-[100px] pointer-events-none -z-20 animate-slow-pulse-2" />
+      <div className="absolute top-10 left-10 w-[40vw] h-[40vw] max-w-[350px] max-h-[350px] rounded-full pointer-events-none -z-20" style={{ background: "radial-gradient(circle, rgba(255, 85, 0, 0.03) 0%, transparent 70%)" }} />
+      <div className="absolute bottom-10 right-10 w-[40vw] h-[40vw] max-w-[350px] max-h-[350px] rounded-full pointer-events-none -z-20" style={{ background: "radial-gradient(circle, rgba(255, 85, 0, 0.02) 0%, transparent 70%)" }} />
 
       {/* Section Header */}
       <ScrollReveal className="text-center mb-16 relative select-none">

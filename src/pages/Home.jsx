@@ -276,7 +276,7 @@ export default function Home() {
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section id="hero" className="relative flex flex-col items-center justify-center text-center px-6 pt-48 pb-28 w-full max-w-[1400px] mx-auto overflow-visible">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] bg-[#ff5500]/6 rounded-full filter blur-[80px] pointer-events-none -z-20 animate-slow-pulse-1" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[500px] max-h-[500px] rounded-full pointer-events-none -z-20" style={{ background: "radial-gradient(circle, rgba(255, 85, 0, 0.05) 0%, transparent 70%)" }} />
 
 
 
